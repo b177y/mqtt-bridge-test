@@ -53,15 +53,15 @@ aggregator and update its config for each one.
 If there are multiple farms, they all need to be able to access
 the datacentre, but the datacentre doesn't need to know about each
 forwarder and update its config for each one.
-** forwards anything received on *aggregators/+/sensors/+/data* to *farms/ID/aggregators/+/sensors/+/data*
-** subscribes to *farms/ID/aggregators/+/sensors/+/commands* and renames to *aggregators/+/sensors/+/commands*
+** forwards anything received on *aggregators/\+/sensors/+/data* to *farms/ID/aggregators/\+/sensors/+/data*
+** subscribes to *farms/ID/aggregators/\+/sensors/+/commands* and renames to *aggregators/\+/sensors/+/commands*
 * datacentre
 ** port 1880 (can be 1883 for real thing again)
 ** config - config/datacentre-mosquitto.conf
 ** no bridges - bridged to by forwarders
 ** no topic restructuring - sends and receives full topic names:
-*** farms/+/aggregators/+/sensors/+/data
-*** farms/+/aggregators/+/sensors/+/commands
+*** farms/\+/aggregators/+/sensors/+/data
+*** farms/\+/aggregators/+/sensors/+/commands
 
 === Test Scripts
 
@@ -73,6 +73,6 @@ forwarder and update its config for each one.
 
 === test_collector.py
 
-* Subs to *farms/+/aggregators/+/sensors/+/data*
+* Subs to *farms/\+/aggregators/+/sensors/+/data*
 * Can publish to any sensor but for demo, publishes to
 *farms/1/aggregators/1/sensors/1/commands*
