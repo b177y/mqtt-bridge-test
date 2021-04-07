@@ -44,8 +44,8 @@ python3 test_sensor.py
 If there are multiple aggregators, they all need to be able to access
 the forwarder (e.g. mDNS?), but the forwarder doesn't need to know about each
 aggregator and update its config for each one.
-** forwards anything received on *sensors/+/data* to *aggregators/ID/sensors/+/data*
-** subscribes to *aggregators/ID/sensors/+/commands* and renames to *sensors/+/commands*
+** forwards anything received on *sensors/\+/data* to *aggregators/ID/sensors/+/data*
+** subscribes to *aggregators/ID/sensors/\+/commands* and renames to *sensors/+/commands*
 * forwarder
 ** port 1883
 ** config - config/forwarder-mosquitto.conf
