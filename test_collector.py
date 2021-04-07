@@ -15,7 +15,7 @@ def on_message(client, userdata, msg):
 
 client.on_message = on_message
 logger.info("Trying to connect to broker...")
-client.connect("127.0.0.1", port=1883)
+client.connect("127.0.0.1", port=1880)
 logger.info("Connected to broker")
 client.loop_start()
 logger.info(f"Subscribing to topic {sub_to}")
