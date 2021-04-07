@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  aggregator:
+    image: eclipse-mosquitto
+    container_name: mqtt_agg_1
+    networks:
+      - mqtt_net
+    volumes:
+      - ./config/aggregator-mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 1890:1890
+  forwarder:
+    image: eclipse-mosquitto
+    container_name: mqtt_forwarder_1
+    networks:
+      - mqtt_net
+    volumes:
+      - ./config/forwarder-mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      # just for testing
+      - 1883:1883
+  datacentre:
+    image: eclipse-mosquitto
+    container_name: mqtt_datacentre
+    networks:
+      - mqtt_net
+    volumes:
+      - ./config/datacentre-mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 1880:1880
+
+networks:
+  mqtt_net:
+    name: mqtt_net
