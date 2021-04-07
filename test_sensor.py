@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import logging
 import time
 
-sub_to = "sensors/+/commands"
+sub_to = "sensors/1/commands"
 pub_to = "sensors/1/data"
 
 client = mqtt.Client("test_sensor")

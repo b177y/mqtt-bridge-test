@@ -1,0 +1,78 @@
+= MQTT Bridge Test
+
+== Broker Setup
+
+* Install docker
+* Install docker-compose
+
+[source, shell]
+----
+docker-compose up -d
+----
+
+== Test Scripts
+
+=== Install Dependencies
+
+* python3
+* python3-pip
+
+[source,shell]
+----
+pip3 install paho-mqtt
+----
+
+=== Run Tests
+
+[source, shell]
+----
+# In one terminal
+python3 test_collector.py
+
+# In another terminal (at the same time)
+python3 test_sensor.py
+----
+
+== Details
+
+=== Brokers
+
+* aggregator
+** port 1890 (can be 1883 for real thing but cause testing on one host)
+** config - config/aggregator-mosquitto.conf
+** has bridge to forwarder.
+If there are multiple aggregators, they all need to be able to access
+the forwarder (e.g. mDNS?), but the forwarder doesn't need to know about each
+aggregator and update its config for each one.
+** forwards anything received on *sensors/+/data* to *aggregators/ID/sensors/+/data*
+** subscribes to *aggregators/ID/sensors/+/commands* and renames to *sensors/+/commands*
+* forwarder
+** port 1883
+** config - config/forwarder-mosquitto.conf
+** has bridge to datacentre.
+If there are multiple farms, they all need to be able to access
+the datacentre, but the datacentre doesn't need to know about each
+forwarder and update its config for each one.
+** forwards anything received on *aggregators/+/sensors/+/data* to *farms/ID/aggregators/+/sensors/+/data*
+** subscribes to *farms/ID/aggregators/+/sensors/+/commands* and renames to *aggregators/+/sensors/+/commands*
+* datacentre
+** port 1880 (can be 1883 for real thing again)
+** config - config/datacentre-mosquitto.conf
+** no bridges - bridged to by forwarders
+** no topic restructuring - sends and receives full topic names:
+*** farms/+/aggregators/+/sensors/+/data
+*** farms/+/aggregators/+/sensors/+/commands
+
+=== Test Scripts
+
+=== test_sensor.py
+
+* Subscribes to *sensors/1/commands* to receive commands for itself
+(sensor with id 1)
+* publishes to *sensors/1/data*
+
+=== test_collector.py
+
+* Subs to *farms/+/aggregators/+/sensors/+/data*
+* Can publish to any sensor but for demo, publishes to
+*farms/1/aggregators/1/sensors/1/commands*
